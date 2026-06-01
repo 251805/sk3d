@@ -1,0 +1,108 @@
+/* @import Google Web Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+/* Base style resets */
+body {
+  background-color: #f8fafc; /* Crisp light slate background */
+  font-family: var(--font-sans);
+  color: #1e293b;
+}
+
+/* Custom slant parallelogram adjustments for layout matching reference */
+.bg-red-650 {
+  background-color: #cb1212;
+}
+
+.border-red-650 {
+  border-color: #cb1212;
+}
+
+/* Standard animation frames */
+@keyframes slideUp {
+  from {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+/* Custom Print Page settings for HRIS schedules */
+@media print {
+  /* Hide non-sched elements */
+  header, 
+  #pwa-toast-module, 
+  #dashboard-stats-section, 
+  #quick-seed-expand-btn, 
+  #roster-grid-module > div.bg-slate-50, /* Legend of grid */
+  #cell-assignment-modal, 
+  #administration-creation-row,
+  footer,
+  aside,
+  button,
+  form,
+  input,
+  select,
+  .print\:hidden {
+    display: none !important;
+  }
+
+  /* Reset layout constraints for paper delivery */
+  body, 
+  main, 
+  div, 
+  section {
+    background: #ffffff !important;
+    color: #000000 !important;
+    box-shadow: none !important;
+    border-color: #cccccc !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Make sure horizontal grid remains fully visible */
+  #roster-grid-module {
+    border: none !important;
+  }
+
+  .overflow-x-auto {
+    overflow-x: visible !important;
+    overflow-y: visible !important;
+  }
+
+  div.min-w-\[1240px\] {
+    min-w: 100% !important;
+    width: 100% !important;
+  }
+  
+  /* Retain print readability */
+  .bg-red-650, .bg-\[\#00175b\], .bg-\[\#001861\] {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    background-color: #cb1212 !important;
+    color: #ffffff !important;
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Pagbilao Command Center",
+  "description": "Duty Scheduling & Workforce Portal for Pagbilao Command Center.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
