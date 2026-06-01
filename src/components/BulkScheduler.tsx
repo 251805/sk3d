@@ -102,7 +102,7 @@ export default function BulkScheduler({ employees, onApplyBulkShift }: BulkSched
                 <select
                   value={targetEmployeeId}
                   onChange={(e) => setTargetEmployeeId(e.target.value)}
-                  className="w-full text-xs font-semibold border border-slate-200 rounded-lg p-2.5 bg-slate-50 focus:bg-white"
+                  className="w-full text-base md:text-xs font-semibold border border-slate-200 rounded-lg p-2.5 bg-slate-50 focus:bg-white"
                 >
                   {employees.map((e) => (
                     <option key={e.id} value={e.id}>
@@ -134,7 +134,7 @@ export default function BulkScheduler({ employees, onApplyBulkShift }: BulkSched
                 required
                 value={customStartDate}
                 onChange={(e) => setCustomStartDate(e.target.value)}
-                className="w-full text-xs border border-slate-200 rounded-lg p-2.5 bg-slate-50 font-mono"
+                className="w-full text-base md:text-xs border border-slate-200 rounded-lg p-2.5 bg-slate-50 font-mono focus:bg-white focus:outline-none"
               />
             </div>
             <div>
@@ -146,7 +146,7 @@ export default function BulkScheduler({ employees, onApplyBulkShift }: BulkSched
                 required
                 value={customEndDate}
                 onChange={(e) => setCustomEndDate(e.target.value)}
-                className="w-full text-xs border border-slate-200 rounded-lg p-2.5 bg-slate-50 font-mono"
+                className="w-full text-base md:text-xs border border-slate-200 rounded-lg p-2.5 bg-slate-50 font-mono focus:bg-white focus:outline-none"
               />
             </div>
           </div>
@@ -164,7 +164,7 @@ export default function BulkScheduler({ employees, onApplyBulkShift }: BulkSched
                     setSelectedTag('NONE');
                   }
                 }}
-                className="w-full text-xs font-semibold border border-slate-200 rounded-lg p-2.5 bg-slate-50"
+                className="w-full text-base md:text-xs font-semibold border border-slate-200 rounded-lg p-2.5 bg-slate-50 focus:bg-white"
               >
                 <option value="NONE">-- Clear Shift Assignment --</option>
                 <option value="6:00 AM – 2:00 PM">6:00 AM – 2:00 PM (Morning)</option>
@@ -186,7 +186,7 @@ export default function BulkScheduler({ employees, onApplyBulkShift }: BulkSched
                     setSelectedShift('NONE');
                   }
                 }}
-                className="w-full text-xs font-semibold border border-slate-200 rounded-lg p-2.5 bg-slate-50"
+                className="w-full text-base md:text-xs font-semibold border border-slate-200 rounded-lg p-2.5 bg-slate-50 focus:bg-white"
               >
                 <option value="NONE">-- No Status Tag --</option>
                 <option value="DAY OFF">DAY OFF (Rest Period)</option>

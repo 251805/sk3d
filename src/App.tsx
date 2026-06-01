@@ -26,6 +26,7 @@ import ScheduleGrid from './components/ScheduleGrid';
 import AdminRequests from './components/AdminRequests';
 import EmployeePortal from './components/EmployeePortal';
 import BulkScheduler from './components/BulkScheduler';
+import EmployeeManager from './components/EmployeeManager';
 import { PlusCircle, Users, Check, AlertTriangle, Layers, Calendar, HelpCircle, BadgeInfo } from 'lucide-react';
 
 export default function App() {
@@ -440,13 +441,18 @@ export default function App() {
   };
 
   // Trigger Adding employee manual records
-  const handleCreateEmployee = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newEmpName.trim()) return;
+  const handleCreateEmployee = (name: string) => {
+    if (!name.trim()) return;
+
+    // Allocate a unique sequence id higher than all existing ids to prevent collisions
+    const maxNumber = employees.reduce((acc, emp) => {
+      const num = parseInt(emp.id.replace('emp-', ''), 10);
+      return !isNaN(num) ? Math.max(acc, num) : acc;
+    }, 1000);
 
     const newEmp: Employee = {
-      id: `emp-${1000 + employees.length}`,
-      name: newEmpName.toUpperCase().trim(),
+      id: `emp-${maxNumber + 1}`,
+      name: name.toUpperCase().trim(),
       isActive: true,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -476,9 +482,43 @@ export default function App() {
     setSchedules(updatedScheds);
     saveStoredSchedules(updatedScheds);
 
-    setNewEmpName('');
     setAddSuccess(true);
     setTimeout(() => setAddSuccess(false), 3500);
+  };
+
+  // Trigger Updating employee records (Edit name or active state)
+  const handleUpdateEmployee = (id: string, updatedFields: Partial<Employee>) => {
+    const updatedEmps = employees.map((emp) =>
+      emp.id === id ? { ...emp, ...updatedFields, updatedAt: new Date().toISOString() } : emp
+    );
+    setEmployees(updatedEmps);
+    saveStoredEmployees(updatedEmps);
+
+    // If name changed, we also synchronize it with non-redundant stores such as hr requests logs
+    if (updatedFields.name) {
+      const updatedReqs = requests.map((req) =>
+        req.employeeId === id ? { ...req, employeeName: updatedFields.name!.trim().toUpperCase() } : req
+      );
+      setRequests(updatedReqs);
+      saveStoredRequests(updatedReqs);
+    }
+  };
+
+  // Trigger Deleting employee records (Erase employee profiles + schedules + logs securely)
+  const handleDeleteEmployee = (id: string) => {
+    const updatedEmps = employees.filter((emp) => emp.id !== id);
+    setEmployees(updatedEmps);
+    saveStoredEmployees(updatedEmps);
+
+    // Cascade delete associated schedules
+    const updatedScheds = schedules.filter((s) => s.employeeId !== id);
+    setSchedules(updatedScheds);
+    saveStoredSchedules(updatedScheds);
+
+    // Cascade delete associated pending requests
+    const updatedReqs = requests.filter((r) => r.employeeId !== id);
+    setRequests(updatedReqs);
+    saveStoredRequests(updatedReqs);
   };
 
   // Expand list to 100 randomly seeded employees
@@ -621,7 +661,7 @@ export default function App() {
                     value={loginUsername}
                     onChange={(e) => setLoginUsername(e.target.value)}
                     placeholder="Enter admin username"
-                    className="w-full text-xs font-semibold border border-slate-200 rounded-lg p-2.5 bg-slate-50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-blue-650"
+                    className="w-full text-base md:text-xs font-semibold border border-slate-200 rounded-lg p-2.5 bg-slate-50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-blue-650"
                   />
                 </div>
 
@@ -635,7 +675,7 @@ export default function App() {
                     value={loginPassword}
                     onChange={(e) => setLoginPassword(e.target.value)}
                     placeholder="••••••••••••"
-                    className="w-full text-xs font-semibold border border-slate-200 rounded-lg p-2.5 bg-slate-50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-blue-650"
+                    className="w-full text-base md:text-xs font-semibold border border-[#cbd5e1] rounded-lg p-2.5 bg-slate-50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-blue-650"
                   />
                 </div>
 
@@ -709,46 +749,14 @@ export default function App() {
 
               </div>
 
-              {/* Manual Employee Recruitment registration block */}
-              <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-3xs" id="administration-creation-row">
-                <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3 flex items-center gap-1.5">
-                  <Users size={16} className="text-red-650" />
-                  <span>Register Manual Personnel Records</span>
-                </h3>
-                
-                <form onSubmit={handleCreateEmployee} className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
-                  <div>
-                    <label className="block text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-1">
-                      Employee Profile Full Name
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={newEmpName}
-                      onChange={(e) => setNewEmpName(e.target.value)}
-                      placeholder="Enter full name e.g., JAROLD LEE LUZADAS"
-                      className="w-full text-xs font-semibold border border-slate-200 rounded-lg p-2.5 bg-slate-50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-red-500 uppercase"
-                    />
-                  </div>
-
-                  <div className="flex items-center space-x-3.5">
-                    <button
-                      type="submit"
-                      className="flex-1 bg-slate-900 text-white font-bold py-2.5 px-4 rounded-lg text-xs hover:bg-slate-800 outline-none uppercase transition tracking-wider flex items-center justify-center space-x-1.5 shadow-3xs"
-                    >
-                      <PlusCircle size={15} />
-                      <span>Recruit Staff Entry</span>
-                    </button>
-
-                    {addSuccess && (
-                      <span className="text-xs font-bold text-emerald-600 animate-pulse flex items-center gap-1 shrink-0">
-                        <Check size={14} className="stroke-[2.5]" />
-                        Recruited!
-                      </span>
-                    )}
-                  </div>
-                </form>
-              </div>
+              {/* Personnel Roster & Profile Directory Dashboard Manager (CRUD) */}
+              <EmployeeManager
+                employees={employees}
+                onCreateEmployee={handleCreateEmployee}
+                onUpdateEmployee={handleUpdateEmployee}
+                onDeleteEmployee={handleDeleteEmployee}
+                addSuccess={addSuccess}
+              />
 
               {/* SECTION: ADMIN ACCOUNTS & CREDENTIALS MANAGER (Root Access Only) */}
               {currentAdminSession.role === 'root' && (
@@ -892,7 +900,7 @@ export default function App() {
                             value={newAdminName}
                             onChange={(e) => setNewAdminName(e.target.value)}
                             placeholder="e.g., admin2"
-                            className="w-full text-xs font-semibold border border-slate-200 rounded p-2 bg-white focus:outline-none"
+                            className="w-full text-base md:text-xs font-semibold border border-slate-200 rounded p-2 bg-white focus:outline-none"
                           />
                         </div>
 
@@ -906,7 +914,7 @@ export default function App() {
                             value={newAdminPassword}
                             onChange={(e) => setNewAdminPassword(e.target.value)}
                             placeholder="Enter password text"
-                            className="w-full text-xs font-semibold border border-slate-200 rounded p-2 bg-white focus:outline-none"
+                            className="w-full text-base md:text-xs font-semibold border border-slate-200 rounded p-2 bg-white focus:outline-none"
                           />
                         </div>
 
@@ -917,7 +925,7 @@ export default function App() {
                           <select
                             value={newAdminRole}
                             onChange={(e) => setNewAdminRole(e.target.value as 'root' | 'operator')}
-                            className="w-full text-xs font-semibold border border-slate-200 rounded p-2 bg-white"
+                            className="w-full text-base md:text-xs font-semibold border border-slate-200 rounded p-2 bg-white"
                           >
                             <option value="operator">System Operator (Restricted)</option>
                             <option value="root">Full Master Root Creator</option>

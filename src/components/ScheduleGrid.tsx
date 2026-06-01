@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { ShiftAssignment, Employee, ShiftType, StatusTagType } from '../types';
 import { SHIFT_HOURS } from '../data';
 import { Printer, Download, Eye, FileText, X, Save, Edit2, Sparkles, AlertCircle, Calendar, Grid, Layers, UserCheck } from 'lucide-react';
@@ -27,6 +27,15 @@ export default function ScheduleGrid({
 }: ScheduleGridProps) {
   // Toggle selection for scheduler: 'daily' | 'weekly' | 'monthly'
   const [viewMode, setViewMode] = useState<'daily' | 'weekly' | 'monthly'>('monthly');
+
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const scrollGrid = (direction: 'left' | 'right') => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    const scrollAmount = direction === 'left' ? -280 : 280;
+    container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+  };
 
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth();
@@ -269,10 +278,32 @@ export default function ScheduleGrid({
         </div>
 
         {/* Action Button tools */}
-        <div className="flex items-center space-x-2 xl:justify-end">
+        <div className="flex flex-wrap items-center gap-2 xl:justify-end">
+          {viewMode !== 'daily' && (
+            <div className="flex items-center bg-slate-200/70 p-0.5 rounded-lg border border-slate-350/40">
+              <button
+                type="button"
+                onClick={() => scrollGrid('left')}
+                className="px-2.5 py-1 hover:bg-white text-slate-700 rounded text-xs font-black uppercase tracking-wider transition active:scale-95 cursor-pointer"
+                title="Scroll Calendar Left"
+              >
+                ◀ Left
+              </button>
+              <span className="text-[9px] text-slate-400 font-extrabold px-1 tracking-wider leading-none select-none">PAN</span>
+              <button
+                type="button"
+                onClick={() => scrollGrid('right')}
+                className="px-2.5 py-1 hover:bg-white text-slate-700 rounded text-xs font-black uppercase tracking-wider transition active:scale-95 cursor-pointer"
+                title="Scroll Calendar Right"
+              >
+                Right ▶
+              </button>
+            </div>
+          )}
+
           <button
             onClick={handlePrint}
-            className="flex items-center space-x-1.5 bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 shadow-3xs px-3 py-1.5 rounded-lg text-xs font-semibold transition"
+            className="flex items-center space-x-1.5 bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 shadow-3xs px-3 py-1.5 rounded-lg text-xs font-semibold transition cursor-pointer"
           >
             <Printer size={13} />
             <span>Print Current Mode</span>
@@ -280,7 +311,7 @@ export default function ScheduleGrid({
           
           <button
             onClick={handleDownloadCSV}
-            className="flex items-center space-x-1.5 bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 shadow-3xs px-3 py-1.5 rounded-lg text-xs font-semibold transition"
+            className="flex items-center space-x-1.5 bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 shadow-3xs px-3 py-1.5 rounded-lg text-xs font-semibold transition cursor-pointer"
             title="Download full team roster as CSV file"
           >
             <Download size={13} />
@@ -314,6 +345,12 @@ export default function ScheduleGrid({
           </div>
           <div className="flex items-center space-x-1 bg-[#002fbe] px-2 py-0.5 rounded text-[10px] font-bold text-white uppercase">
             <span>DAY OFF</span>
+          </div>
+          <div className="text-[10px] text-slate-400 font-bold italic ml-auto hidden sm:inline-block">
+            💡 Swipe or use PAN buttons
+          </div>
+          <div className="text-[10px] text-slate-450 font-bold italic block sm:hidden w-full text-center border-t border-slate-200/40 pt-1.5 mt-1">
+            💡 Swipe or tap PAN buttons above to navigate dates
           </div>
         </div>
       )}
@@ -560,7 +597,7 @@ export default function ScheduleGrid({
 
       {/* ==================== B. WEEKLY GRID VIEW ==================== */}
       {viewMode === 'weekly' && (
-        <div className="overflow-x-auto overflow-y-hidden shadow-inner animate-fade-in text-slate-800">
+        <div ref={scrollContainerRef} className="overflow-x-auto overflow-y-hidden shadow-inner animate-fade-in text-slate-800">
           <div className="min-w-[1020px] divide-y divide-slate-200 font-sans select-none">
             
             {/* Header row containing 7 Days */}
@@ -678,7 +715,7 @@ export default function ScheduleGrid({
 
       {/* ==================== C. MONTHLY GRID VIEW ==================== */}
       {viewMode === 'monthly' && (
-        <div className="overflow-x-auto overflow-y-hidden print:overflow-x-visible shadow-inner animate-fade-in text-slate-800">
+        <div ref={scrollContainerRef} className="overflow-x-auto overflow-y-hidden print:overflow-x-visible shadow-inner animate-fade-in text-slate-800">
           <div className="w-max min-w-full divide-y divide-slate-200 font-sans select-none">
             
             <div className="flex bg-[#001861] text-white">

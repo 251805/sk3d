@@ -133,7 +133,7 @@ export default function EmployeePortal({
               placeholder="Find employee name..."
               value={filterQuery}
               onChange={(e) => setFilterQuery(e.target.value)}
-              className="block w-full pl-8 pr-3 py-1.5 border border-slate-200 rounded-lg text-xs bg-slate-50 focus:bg-white focus:outline-none transition-all placeholder-slate-400"
+              className="block w-full pl-8 pr-3 py-1.5 border border-slate-200 rounded-lg text-base md:text-xs bg-slate-50 focus:bg-white focus:outline-none transition-all placeholder-slate-400"
             />
           </div>
         </div>
@@ -145,7 +145,7 @@ export default function EmployeePortal({
           <select
             value={selectedEmpId}
             onChange={(e) => setSelectedEmpId(e.target.value)}
-            className="w-full text-xs font-semibold border border-slate-200 rounded-lg p-2 bg-white focus:ring-1 focus:ring-red-500 focus:outline-none"
+            className="w-full text-base md:text-xs font-semibold border border-slate-200 rounded-lg p-2 bg-white focus:ring-1 focus:ring-red-500 focus:outline-none"
           >
             {filteredSelector.length === 0 ? (
               <option value="">No matched records</option>
@@ -242,7 +242,7 @@ export default function EmployeePortal({
                   <select
                     value={requestType}
                     onChange={(e) => setRequestType(e.target.value as HRRequest['requestType'])}
-                    className="w-full text-xs font-semibold border border-slate-200 rounded-lg p-2 bg-slate-50"
+                    className="w-full text-base md:text-xs font-semibold border border-slate-200 rounded-lg p-2 bg-slate-50 focus:bg-white"
                   >
                     <option value="Day-off">Day-off Request</option>
                     <option value="Leave">Annual/Sick Leave Request</option>
@@ -261,7 +261,7 @@ export default function EmployeePortal({
                       type="date"
                       value={startDate}
                       onChange={(e) => setStartDate(e.target.value)}
-                      className="w-full text-xs border border-slate-200 rounded-lg p-2 bg-slate-50"
+                      className="w-full text-base md:text-xs border border-slate-200 rounded-lg p-2 bg-slate-50 focus:bg-white"
                     />
                   </div>
                   <div>
@@ -272,7 +272,7 @@ export default function EmployeePortal({
                       type="date"
                       value={endDate}
                       onChange={(e) => setEndDate(e.target.value)}
-                      className="w-full text-xs border border-slate-200 rounded-lg p-2 bg-slate-50"
+                      className="w-full text-base md:text-xs border border-slate-200 rounded-lg p-2 bg-slate-50 focus:bg-white"
                     />
                   </div>
                 </div>
@@ -288,7 +288,7 @@ export default function EmployeePortal({
                     onChange={(e) => setDetails(e.target.value)}
                     placeholder="Enter details about substitute or reason e.g., trade shift with Julie, medical dentist appointment..."
                     rows={3}
-                    className="w-full text-xs border border-slate-200 rounded-lg p-2 bg-slate-50 focus:outline-none focus:ring-1 focus:ring-red-500 focus:bg-white"
+                    className="w-full text-base md:text-xs border border-slate-200 rounded-lg p-2 focus:outline-none focus:ring-1 focus:ring-red-500 focus:bg-white bg-slate-50"
                   />
                 </div>
 

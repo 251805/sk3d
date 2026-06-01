@@ -192,7 +192,7 @@ export default function AdminRequests({ requests, onReviewRequest }: AdminReques
                         onChange={(e) => setAdminNotes(e.target.value)}
                         placeholder="Add review feedback for record history..."
                         rows={2}
-                        className="w-full text-xs border border-slate-200 rounded-lg p-2.5 bg-white shadow-3xs focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500"
+                        className="w-full text-base md:text-xs border border-slate-200 rounded-lg p-2.5 bg-white shadow-3xs focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500"
                       />
                     </div>
 
