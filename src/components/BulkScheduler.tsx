@@ -51,10 +51,10 @@ export default function BulkScheduler({ employees, onApplyBulkShift }: BulkSched
             <CalendarRange size={16} className="text-red-400 stroke-[2.5]" />
             <div>
               <h3 className="text-sm font-black uppercase tracking-wider text-white">
-                Roster General Override & Block Editor
+                Create Schedule Here
               </h3>
               <p className="text-[11px] text-blue-200 leading-none">
-                Apply quick manual overrides for customized dates.
+                Apply quick manual or customized dates.
               </p>
             </div>
           </div>
@@ -217,7 +217,7 @@ export default function BulkScheduler({ employees, onApplyBulkShift }: BulkSched
                 type="submit"
                 className="bg-red-600 text-white hover:bg-red-700 text-xs font-black py-2.5 px-5 rounded-lg flex items-center justify-center space-x-1.5 uppercase transition tracking-wider shadow-2xs cursor-pointer"
               >
-                <span>Apply General Overrides</span>
+                <span>Set Schedule</span>
               </button>
             </div>
           </div>

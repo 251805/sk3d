@@ -72,7 +72,7 @@ export default function AdminRequests({ requests, onReviewRequest }: AdminReques
           <ShieldAlert size={20} className="text-red-400 stroke-[2.5]" />
           <div>
             <h3 className="text-sm font-black uppercase tracking-wider text-white">
-              Employee Scheduling Submissions
+              Employee Schedule Request
             </h3>
             <p className="text-[11px] text-blue-200 leading-none">
               Pending review backlog: <span className="font-bold text-white font-mono">{pendingCount} active</span>

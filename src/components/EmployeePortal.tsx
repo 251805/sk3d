@@ -229,7 +229,7 @@ export default function EmployeePortal({
             <div className="bg-white rounded-xl border border-slate-200 shadow-3xs p-5">
               <h3 className="text-sm font-black text-slate-800 uppercase tracking-wider mb-4 flex items-center gap-1.5">
                 <Plus size={16} className="text-slate-400" />
-                <span>Submit HR Schedule Request</span>
+                <span>Submit Schedule Request</span>
               </h3>
 
               <form onSubmit={handleFormSubmit} className="space-y-3.5">

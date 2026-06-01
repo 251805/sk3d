@@ -230,7 +230,7 @@ export default function ScheduleGrid({
             }`}
           >
             <UserCheck size={14} />
-            <span>Daily Splash</span>
+            <span>Daily Schedule</span>
           </button>
           
           <button
@@ -679,7 +679,7 @@ export default function ScheduleGrid({
       {/* ==================== C. MONTHLY GRID VIEW ==================== */}
       {viewMode === 'monthly' && (
         <div className="overflow-x-auto overflow-y-hidden print:overflow-x-visible shadow-inner animate-fade-in text-slate-800">
-          <div className="min-w-[1240px] divide-y divide-slate-200 font-sans select-none">
+          <div className="w-max min-w-full divide-y divide-slate-200 font-sans select-none">
             
             <div className="flex bg-[#001861] text-white">
               
