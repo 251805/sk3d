@@ -639,7 +639,7 @@ export default function App() {
                   Pagbilao Command Center
                 </h3>
                 <p className="text-xs text-blue-200 mt-1">
-                  Administrative Personnel Gateway
+                  Administrative Panel
                 </p>
               </div>
 
@@ -653,7 +653,7 @@ export default function App() {
 
                 <div>
                   <label className="block text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-1.5">
-                    Operator Username
+                    Username
                   </label>
                   <input
                     type="text"
@@ -667,7 +667,7 @@ export default function App() {
 
                 <div>
                   <label className="block text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-1.5">
-                    Security Passkey
+                    Password
                   </label>
                   <input
                     type="password"
@@ -684,7 +684,7 @@ export default function App() {
                     type="submit"
                     className="w-full bg-[#00175b] hover:bg-slate-900 text-white text-xs font-black py-3 rounded-lg uppercase tracking-wider transition duration-150 shadow-md cursor-pointer"
                   >
-                    Authenticate Operator
+                    Submit
                   </button>
                 </div>
 
